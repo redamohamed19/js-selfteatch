@@ -1,35 +1,17 @@
-function smallestCommons(arr) {
-  var min, max;
-  if (arr[0] > arr[1]) {
-    max = arr[0];
-    min = arr[1];
-  } else {
-    max = arr[1];
-    min = arr[0];
-  }
-  var sub = max - min + 1;
-  var duplicate_array = [];
-  function isPrime(num) {
-    for (let i = 2; i <= Math.sqrt(num); i++) {
-      if (num % i == 0) {
-        return false;
-      }
+function steamrollArray(arr) {
+  let flattened = []; //Array to hold flattened values
+  function nestedArr(item) {
+    for (let i = 0; i < item.length; i++) {
+      if (Array.isArray(item[i])) {
+        //check if elements is an array
+        nestedArr(item[i]); //use recursion to get elements at any nested depth
+      } else {
+        flattened.push(item[i]);
+      } //add non-arrays to flattened
     }
-    return true;
+    return flattened; //flattened array output
   }
-  for (let i = max; i < 100000000; i++) {
-    var check = 0;
-    for (let j = min; j <= max; j++) {
-      if (i % j == 0) {
-        check++;
-      }
-    }
-    if (check == sub) {
-      console.log(i);
-      return i;
-      break;
-    }
-  }
+  return nestedArr(arr); //call function on arr argument
 }
 
-smallestCommons([5, 1]);
+console.log(steamrollArray([1, [], [3, [[4]]]]));
