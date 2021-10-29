@@ -1,17 +1,14 @@
-function steamrollArray(arr) {
-  let flattened = []; //Array to hold flattened values
-  function nestedArr(item) {
-    for (let i = 0; i < item.length; i++) {
-      if (Array.isArray(item[i])) {
-        //check if elements is an array
-        nestedArr(item[i]); //use recursion to get elements at any nested depth
-      } else {
-        flattened.push(item[i]);
-      } //add non-arrays to flattened
-    }
-    return flattened; //flattened array output
+function binaryAgent(str) {
+  var tabStr = [];
+  var sentence = [];
+  tabStr = str.split(' ');
+  for (let i = 0; i < tabStr.length; i++) {
+    sentence.push(String.fromCharCode(parseInt(tabStr[i], 2)));
   }
-  return nestedArr(arr); //call function on arr argument
+  var fin = sentence.join('');
+  return fin;
 }
 
-console.log(steamrollArray([1, [], [3, [[4]]]]));
+binaryAgent(
+  '01000001 01110010 01100101 01101110 00100111 01110100 00100000 01100010 01101111 01101110 01100110 01101001 01110010 01100101 01110011 00100000 01100110 01110101 01101110 00100001 00111111'
+);
