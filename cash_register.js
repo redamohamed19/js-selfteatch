@@ -1,26 +1,12 @@
-var empty = videoData1.map(function(x) {
-  var temp = x.rooms.reduce(function(pre, after) {
-    console.log(after);
-    Object.keys(after).forEach(function(prop) {
-      if (after[prop] == false) {
-        pre.push(prop);
-      }
-    });
-
-    return pre;
-  }, []);
-  return temp;
-});
-const filteredArray = empty.filter(value => array2.includes(value));
-
 function checkCashRegister(price, cash, cid) {
   let arraychange = [];
   let currency = [0.01, 0.05, 0.1, 0.25, 1, 5, 10, 20, 100];
-  let change = cash - price + 0.001;
+  let change = cash - price;
   let restchange = change;
   for (let i = cid.length - 1; i >= 0; i--) {
     if (restchange >= cid[i][1]) {
       restchange = restchange - cid[i][1];
+      restchange = restchange.toFixed(2);
       arraychange.unshift([cid[i][0], cid[i][1]]);
       cid[i][1] = 0;
     } else if (restchange != 0) {
@@ -28,36 +14,37 @@ function checkCashRegister(price, cash, cid) {
       var qty = (restchange - k) / currency[i];
       cid[i][1] -= qty * currency[i];
       restchange -= qty * currency[i];
+      restchange = restchange.toFixed(2);
       if (qty * currency[i] > 0) {
         arraychange.unshift([cid[i][0], qty * currency[i]]);
       }
     }
   }
+  console.log(cid);
 
-  if (restchange > 0.01) {
+  if (restchange > 0) {
     return { status: 'INSUFFICIENT_FUNDS', change: [] };
   } else {
     var isempty = cid.reduce((a, b) => {
       if (b[1] > 0) {
-        return false;
+        return true;
       }
-    }, true);
+    }, false);
     if (isempty) {
-      return { status: 'CLOSED', change: arraychange };
-    } else {
       return { status: 'OPEN', change: arraychange };
+    } else {
+      return { status: 'CLOSED', change: arraychange };
     }
   }
 }
-
-checkCashRegister(19.5, 20, [
-  ['PENNY', 0.5],
-  ['NICKEL', 0],
-  ['DIME', 0],
-  ['QUARTER', 0],
-  ['ONE', 0],
-  ['FIVE', 0],
-  ['TEN', 0],
-  ['TWENTY', 0],
-  ['ONE HUNDRED', 0]
+checkCashRegister(3.26, 100, [
+  ['PENNY', 1.01],
+  ['NICKEL', 2.05],
+  ['DIME', 3.1],
+  ['QUARTER', 4.25],
+  ['ONE', 90],
+  ['FIVE', 55],
+  ['TEN', 20],
+  ['TWENTY', 60],
+  ['ONE HUNDRED', 100]
 ]);
